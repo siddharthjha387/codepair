@@ -4,30 +4,41 @@ import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import ACTIONS, { JOINED } from '../Actions';
 import { Client } from '../components/Client';
 import { Editor } from '../components/Editor';
+import MessageIcon from '@mui/icons-material/Message';
 import { initSocket } from '../socket';
-import './Editor.css'
+
+import './EditorPage.css'
+import Chatbox from '../components/Chatbox';
 export const EditorPage = () => {
   const location = useLocation();
-  const {roomId}=useParams();
+  const { roomId } = useParams();
   const reactNavigator = useNavigate();
   const socketRef = useRef(null);
   const codeRef = useRef(null);
-  
+  const [style, setStyle] = useState("mainWrap");
+
+
   const [clients, setClients] = useState([]);
-  const handleCopyRoomId= async ()=>{
+  const handleCopyRoomId = async () => {
     // console.log("Siddharth");
-   try{
-    await navigator.clipboard.writeText(roomId);
-    toast.success("Room Id copied")
-   }
-   catch(err)
-   {
+    try {
+      await navigator.clipboard.writeText(roomId);
+      toast.success("Room Id copied")
+    }
+    catch (err) {
       toast.error('Error in copying');
       console.log(err);
-   }
+    }
   }
 
-  const leaveRoom=()=>{
+  const handleChatBtn=()=>{
+    if(style==='mainWrap')
+    setStyle("mainWrap2")
+    else
+    setStyle("mainWrap")
+  }
+
+  const leaveRoom = () => {
     reactNavigator('/');
   }
   useEffect(() => {
@@ -49,36 +60,35 @@ export const EditorPage = () => {
       //listening to joined event
       socketRef.current.on(
         ACTIONS.JOINED,
-        ({clients,username,socketId})=>{
-          if(username!==location.state?.username)
-          {
+        ({ clients, username, socketId }) => {
+          if (username !== location.state?.username) {
             toast.success(`${username} joined the room`)
           }
           setClients(clients);
           socketRef.current.emit(ACTIONS.SYNC_CODE, {
             code: codeRef.current,
             socketId,
-        });
+          });
         }
       )
 
       //listening for disconnected
-      socketRef.current.on(ACTIONS.DISCONNECTED,({socketId,username})=>{
+      socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room`);
-        setClients((prev)=>{
-          return prev.filter((client)=> client.socketId!==socketId);
+        setClients((prev) => {
+          return prev.filter((client) => client.socketId !== socketId);
         })
       })
 
     };
-    init(); 
-    return ()=>{
-      
+    init();
+    return () => {
+
       socketRef.current.off(ACTIONS.JOINED);
       socketRef.current.off(ACTIONS.DISCONNECTED);
       socketRef.current.disconnect();
     }
-    
+
   }, [])
 
 
@@ -88,7 +98,7 @@ export const EditorPage = () => {
 
 
   return (
-    <div className="mainWrap">
+    <div className={style}>
       <div className="aside">
         <div className="asideInner">
           <div className="logo">
@@ -103,13 +113,17 @@ export const EditorPage = () => {
             }
           </div>
         </div>
+        <button className='btn chatBtn' onClick={handleChatBtn}>Chat</button>
         <button className='btn copyBtn' onClick={handleCopyRoomId}>Copy ROOM ID</button>
         <button className='btn leaveBtn' onClick={leaveRoom}>Leave</button>
-      </div>
+      </div>  
       <div className="editorWrap">
 
-        <Editor socketRef={socketRef} roomId={roomId} onCodeChange={(code) => {codeRef.current = code;}}/>
+        <Editor socketRef={socketRef} roomId={roomId} onCodeChange={(code) => { codeRef.current = code; }} />
       </div>
+      {/* <div className="chatIcon"><MessageIcon/></div> */}
+      
+     {(style==='mainWrap2') && <Chatbox socketRef={socketRef} roomId={roomId} handleChatBtn={handleChatBtn}/>}
     </div>)
 }
 

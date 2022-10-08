@@ -1,0 +1,152 @@
+.mainWrap{
+    display: grid;
+    grid-template-columns: 230px 1fr;
+   
+}
+
+
+.mainWrap2{
+    display: grid;
+    grid-template-columns: 230px 1fr 360px;
+   
+}
+
+.aside{
+    background: #1c1e29;
+    padding: 16px;
+    color:#fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.asideInner{
+    flex:1;
+}
+
+.clientsList{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:20px;
+
+}
+
+.logo{
+    border-bottom: 1px solid #424242;
+    padding-bottom: 10px;
+}
+
+.logoImage{
+    height: 120px;
+}
+
+.leaveBtn{
+    margin-top: 20px;
+    background: #4aed88;
+}
+
+.chatBtn{
+    margin-bottom: 20px;
+    background: #4aed88;
+}
+
+.leaveBtn:hover{
+    background: #2b824c;
+  }
+
+  .chatbox{
+    position: relative;
+  }
+
+
+  .message-box-container{
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 94%;
+    padding: 10px;
+    border-radius: 25px;
+    background-color: #fff;
+    margin: 0 auto;
+    margin-bottom: 4%;
+  }
+  .message-box{
+    min-height: 2rem;
+    border: none;
+    overflow: auto;
+    outline: none;
+    width: 90%;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
+    
+  }
+
+  .message-box::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    opacity: 1; /* Firefox */
+    
+  }
+
+  .send-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+
+  .messages{
+    height: 500px;
+    color: white;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .message{
+    padding: 0.75rem 1.5rem 0.875rem;
+  }
+
+  .chatbox-heading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: white;
+    
+    margin-bottom: 20px;
+  }
+
+.close{
+    color: #fff;
+    margin: 4px;
+}
+
+  
+#style-15::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	background-color: #F5F5F5;
+	border-radius: 10px;
+}
+
+#style-15::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-15::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #FFF;
+	background-image: -webkit-gradient(linear,40% 0%,75% 84%, from(#4aed88),to(#4aed88),color-stop(.6,#4aed88))
+}
+
+
+.chatIcon{
+    float: right;
+}
